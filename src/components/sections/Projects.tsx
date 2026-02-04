@@ -4,10 +4,10 @@ import { ScrollSection } from "@/components/ui/ScrollSection"
 
 export function Projects() {
   return (
-    <section id="projects" className="min-h-screen py-24 px-6 md:px-12 bg-background flex flex-col justify-center">
+    <section id="projects" className="min-h-screen py-18 px-6 md:px-12 bg-background flex flex-col justify-center">
       <ScrollSection>
         <div className="flex flex-col md:flex-row justify-between items-end mb-16 border-b border-border pb-6">
-           <h2 className="text-5xl md:text-8xl font-bold tracking-tighter">Projects</h2>
+           <h2 className="text-5xl md:text-8xl font-bold tracking-tighter mb-4">Projects</h2>
            <span className="text-sm font-mono opacity-50 mb-4">03 / Selected Works</span>
         </div>
 

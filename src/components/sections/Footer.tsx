@@ -37,7 +37,7 @@ export function Footer() {
   return (
     <footer 
       ref={containerRef}
-      className="fixed bottom-0 left-0 w-full h-[50vh] z-0 flex flex-col justify-end pb-12 overflow-hidden bg-black text-white"
+      className="fixed bottom-0 left-0 w-full h-[50vh] z-0 flex flex-col justify-end overflow-hidden bg-black text-white"
     >
       {/* Background Video with Parallax */}
       <motion.div 
@@ -50,7 +50,7 @@ export function Footer() {
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-60 filter blur-lg scale-110"
+          className="w-full h-[190dvh] object-cover opacity-90 filter blur-xs scale-150"
         >
           <source src="/designInspo/bg-footer.mp4" type="video/mp4" />
         </video>
