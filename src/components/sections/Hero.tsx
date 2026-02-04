@@ -58,7 +58,7 @@ export function Hero() {
           className="w-full h-full object-cover opacity-90"
         >
           {/* Assuming the file was moved to public/designInspo/BG-HERO.mp4 */}
-          <source src="/designInspo/BG-HERO.mp4" type="video/mp4" />
+          <source src="/designInspo/bg-hero.mp4" type="video/mp4" />
         </video>
       </motion.div>
 

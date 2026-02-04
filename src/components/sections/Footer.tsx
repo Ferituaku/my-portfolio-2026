@@ -103,7 +103,7 @@ export function Footer() {
       <div className="relative z-10 container mx-auto px-6 h-full flex flex-col justify-end">
         
         {/* Links Row */}
-        <div className="flex justify-between items-end mb-4">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-4 gap-8 md:gap-0">
              {/* Left - Location */}
             <div className="text-xs font-mono opacity-50 uppercase hidden md:block">
                <span>Semarang, Indonesia</span> <br/>
@@ -111,7 +111,7 @@ export function Footer() {
             </div>
 
             {/* Right - Menu */}
-            <div className="flex gap-8 text-xs md:text-sm font-medium uppercase tracking-widest text-white/70">
+            <div className="grid grid-cols-2 gap-x-12 gap-y-4 md:flex md:gap-8 text-sm font-medium uppercase tracking-widest text-white/70 w-full md:w-auto text-center md:text-right">
                 <a href="#projects" className="hover:text-white transition-colors">Projects</a>
                 <a href="#about" className="hover:text-white transition-colors">About</a>
                 <a href="/contact" className="hover:text-white transition-colors">Contact</a>
@@ -122,7 +122,7 @@ export function Footer() {
 
         {/* Big Text */}
         <div className="w-full overflow-hidden border-t border-white/20 pt-2">
-            <h1 className="text-[18vw] leading-[0.8] font-bold tracking-tighter text-center mix-blend-overlay opacity-90 select-none">
+            <h1 className="text-[25vw] md:text-[18vw] leading-[0.8] font-bold tracking-tighter text-center mix-blend-overlay opacity-90 select-none">
               HIERRO
             </h1>
         </div>
