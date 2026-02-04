@@ -57,8 +57,8 @@ export function Hero() {
           playsInline
           className="w-full h-full object-cover opacity-90"
         >
-          {/* Assuming the file was moved to public/designInspo/BG-HERO.mp4 */}
-          <source src="/designInspo/bg-hero.mp4" type="video/mp4" />
+          {/* Local file with corrected casing */}
+          <source src="/bg-hero.mp4" type="video/mp4" />
         </video>
       </motion.div>
 

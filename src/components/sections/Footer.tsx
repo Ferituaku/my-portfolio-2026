@@ -52,7 +52,7 @@ export function Footer() {
           playsInline
           className="w-full h-[190dvh] object-cover opacity-90 filter blur-xs scale-150"
         >
-          <source src="/designInspo/bg-footer.mp4" type="video/mp4" />
+          <source src="/bg-footer.mp4" type="video/mp4" />
         </video>
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-black/60" />
