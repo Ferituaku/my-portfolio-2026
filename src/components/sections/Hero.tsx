@@ -57,8 +57,8 @@ export function Hero() {
           playsInline
           className="w-full h-full object-cover opacity-90"
         >
-          {/* Local file with corrected casing */}
-          <source src="/bg-hero.mp4" type="video/mp4" />
+          {/* Vercel Blob URL */}
+          <source src="https://ry74leabzi38ngqg.public.blob.vercel-storage.com/public/bg-hero.mp4" type="video/mp4" />
         </video>
       </motion.div>
 
