@@ -8,10 +8,10 @@ export function TechStack() {
   return (
      <section id="stack" className="py-18 border-y border-border bg-background">
        <ScrollSection>
-           <h2 className="text-sm font-mono tracking-widest uppercase mb-12 text-center opacity-50">04 / Stack</h2>
+           <h2 className="text-sm font-sans tracking-widest uppercase mb-12 text-center text-muted-foreground">04 / Stack</h2>
            <div className="flex flex-wrap justify-center gap-x-12 gap-y-8 max-w-5xl mx-auto px-6">
               {TECH.map((tech) => (
-                 <span key={tech} className="text-2xl md:text-5xl font-light hover:text-muted-foreground transition-colors cursor-default">
+                 <span key={tech} className="text-xl md:text-3xl font-sans font-light text-foreground/80 hover:text-foreground transition-colors cursor-default">
                    {tech}
                  </span>
               ))}

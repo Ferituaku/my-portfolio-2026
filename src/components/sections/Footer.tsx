@@ -122,8 +122,8 @@ export function Footer() {
 
         {/* Big Text */}
         <div className="w-full overflow-hidden border-t border-white/20 pt-2">
-            <h1 className="text-[25vw] md:text-[18vw] leading-[0.8] font-bold tracking-tighter text-center mix-blend-overlay opacity-90 select-none">
-              HIERRO
+            <h1 className="text-[25vw] md:text-[18vw] leading-[0.8] font-serif italic text-center mix-blend-overlay opacity-90 select-none">
+              Hierro
             </h1>
         </div>
         

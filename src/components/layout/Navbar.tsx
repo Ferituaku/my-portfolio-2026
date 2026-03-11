@@ -93,10 +93,10 @@ export function Navbar() {
         ref={overlayRef}
         className="fixed inset-x-0 top-0 h-0 bg-foreground z-[55] overflow-hidden flex flex-col justify-center items-center text-background"
       >
-        <nav>
+        <nav className="w-full flex-1 flex flex-col justify-center">
           <ul
             ref={navListRef}
-            className="flex flex-col items-center gap-8 space-y-4"
+            className="flex flex-col items-center gap-6 md:gap-5 w-full"
           >
             {MENU_ITEMS.map((item, idx) => {
               // Logic: If on home page, use anchor. If not, use /#anchor.
@@ -107,12 +107,12 @@ export function Navbar() {
               }
 
               return (
-              <li key={idx} className="overflow-hidden">
+              <li key={idx} className="overflow-hidden py-1">
                 {item.label === 'Home' ? (
                   <a
                     href={item.href}
                     onClick={toggleMenu}
-                    className="text-6xl md:text-8xl font-bold tracking-tighter hover:text-muted-foreground transition-colors block"
+                    className="text-[10vw] md:text-5xl lg:text-7xl font-serif font-normal hover:opacity-70 transition-opacity block leading-none"
                   >
                     {item.label}
                   </a>
@@ -120,7 +120,7 @@ export function Navbar() {
                   <Link
                     href={href}
                     onClick={toggleMenu}
-                    className="text-6xl md:text-8xl font-bold tracking-tighter hover:text-muted-foreground transition-colors block"
+                    className="text-[10vw] md:text-5xl lg:text-7xl font-serif font-normal hover:opacity-70 transition-opacity block leading-none"
                   >
                     {item.label}
                   </Link>
@@ -131,8 +131,8 @@ export function Navbar() {
           </ul>
         </nav>
         
-        <div className="absolute bottom-10 text-sm opacity-50 font-mono">
-          Al Ferro Portfolio (v2026)
+        <div className="absolute bottom-10 text-xs tracking-widest opacity-50 font-sans uppercase">
+          Ferro Itu Aku (v2026)
         </div>
       </div>
     </>

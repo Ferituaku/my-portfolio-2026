@@ -67,10 +67,10 @@ export function Hero() {
 
 
       <div className="relative z-10 text-center text-white mix-blend-difference select-none pointer-events-none">
-        <h1 className="text-6xl md:text-9xl font-bold tracking-tighter uppercase mb-4 animate-in fade-in slide-in-from-bottom-10 duration-1000">
+        <h1 className="text-6xl md:text-[12vw] font-serif font-normal tracking-tight mb-2 animate-in fade-in slide-in-from-bottom-10 duration-1000 leading-none">
           Ferro Putra
         </h1>
-        <p className="text-xl md:text-2xl font-light tracking-[0.2em] uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-300">
+        <p className="text-sm md:text-base font-sans tracking-[0.2em] uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-300 opacity-80">
           Full Stack Developer • AI Engineer
         </p>
       </div>
