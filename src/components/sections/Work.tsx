@@ -22,7 +22,7 @@ const EXPERIENCE = [
   },
   {
     role: "Machine Learning Lab Assistant",
-    company: "Undip",
+    company: "UNIVERSITAS DIPONEGORO",
     period: "September - November 2025",
     description: "Teaching assistant for Machine Learning courses. Guided students through the end-to-end Machine Learning pipeline, from Exploratory Data Analysis (EDA) to model training and evaluation metrics (Accuracy, Precision, Recall).",
     image: "/work/machine-learning-lab.jpeg",

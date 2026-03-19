@@ -16,7 +16,7 @@ export function CustomCursor() {
       cursorY.set(e.clientY - 100)
       
       // Calculate if we've scrolled past the hero section (approx 100vh)
-      const scrolledPastHero = window.scrollY > window.innerHeight * 0.9
+      const scrolledPastHero = window.scrollY > window.innerHeight * 0.5
 
       if (scrolledPastHero) {
         setIsVisible(true)
@@ -46,20 +46,19 @@ export function CustomCursor() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 w-[200px] h-[200px] rounded-full pointer-events-none z-[100] mix-blend-multiply overflow-hidden transition-opacity duration-300"
+      className="fixed top-0 left-0 w-[200px] h-[200px] pointer-events-none z-[100] transition-opacity duration-300 flex items-center justify-center"
       style={{
         x: cursorX,
         y: cursorY,
-        opacity: isVisible ? 0.6 : 0, 
+        opacity: isVisible ? 1 : 0, 
       }}
     >
-      {/* Bright Pastel Gradient Radial Background with ultra-smooth edges */}
+      {/* Smooth gradient cursor matching background fade */}
       <div 
-         className="w-full h-full rounded-full"
+         className="w-[200px] h-[200px] rounded-full mix-blend-multiply shrink-0"
          style={{
-            background: 'radial-gradient(circle, rgba(255,182,193,0.5) 0%, rgba(173,216,230,0.3) 15%, rgba(255,255,255,0) 45%)',
-            filter: 'blur(40px)',
-            transform: 'scale(1.8)'
+            background: 'radial-gradient(circle, rgba(147,197,253,0.4) 0%, rgba(196,181,253,0.15) 45%, rgba(255,255,255,0) 70%)',
+            filter: 'blur(55px)',
          }}
       />
     </motion.div>

@@ -74,6 +74,52 @@ export function Hero() {
           Full Stack Developer • AI Engineer
         </p>
       </div>
+
+      {/* Floating Contact Button */}
+      <motion.a
+        href="/contact"
+        className="absolute bottom-8 right-6 md:right-12 z-50 w-20 h-20 md:w-24 md:h-24 rounded-full border border-white/30 flex items-center justify-center overflow-hidden transition-colors duration-500 hover:bg-white"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, delay: 0.8 }}
+        whileHover="hover"
+      >
+        {/* Slanted Arrow */}
+        <motion.span 
+          className="z-10 text-xl md:text-2xl"
+          variants={{
+             hover: { rotate: 0, scale: 1.2, color: "#000000" }
+          }}
+          initial={{ rotate: -45, color: "#ffffff" }}
+          transition={{ type: "spring", stiffness: 400, damping: 12 }}
+        >
+          →
+        </motion.span>
+
+        {/* Rotating Circular Text */}
+        <div className="absolute inset-0 w-full h-full animate-[spin_10s_linear_infinite]">
+          <motion.svg 
+            viewBox="0 0 100 100" 
+            className="w-full h-full"
+            variants={{
+               hover: { color: "rgba(0,0,0,0.8)" }
+            }}
+            initial={{ color: "rgba(255,255,255,0.5)" }}
+            transition={{ duration: 0.4 }}
+          >
+            <path
+              id="circlePath"
+              d="M 50, 50 m -32, 0 a 32,32 0 1,1 64,0 a 32,32 0 1,1 -64,0"
+              fill="transparent"
+            />
+            <text className="text-[10px] font-mono tracking-widest uppercase" fill="currentColor">
+              <textPath href="#circlePath" startOffset="0%">
+                Contact Me • Contact Me •
+              </textPath>
+            </text>
+          </motion.svg>
+        </div>
+      </motion.a>
     </motion.section>
   )
 }
