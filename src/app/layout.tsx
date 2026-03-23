@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Preloader } from "@/components/ui/Preloader";
 import { CustomCursor } from "@/components/ui/CustomCursor";
+import { LenisProvider } from "@/components/ui/LenisProvider";
 
 const inter = Inter({
   variable: "--font-sans",
@@ -30,10 +31,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} font-sans antialiased`}
       >
-        <CustomCursor />
-        <Preloader />
-        <Navbar />
-        {children}
+        <LenisProvider>
+          <CustomCursor />
+          <Preloader />
+          <Navbar />
+          {children}
+        </LenisProvider>
       </body>
     </html>
   );
