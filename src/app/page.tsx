@@ -3,6 +3,7 @@ import { About } from "@/components/sections/About";
 import { Work } from "@/components/sections/Work";
 import { Projects } from "@/components/sections/Projects";
 import { TechStack } from "@/components/sections/TechStack";
+import { Github } from "@/components/sections/Github";
 import { Footer } from "@/components/sections/Footer";
 
 export default function Home() {
@@ -15,6 +16,7 @@ export default function Home() {
         <Work />
         <Projects />
         <TechStack />
+        <Github />
       </main>
       <Footer />
     </>
