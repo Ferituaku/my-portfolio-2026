@@ -10,18 +10,26 @@ export function Projects() {
   const targetRef = useRef<HTMLDivElement | null>(null)
   const trackRef = useRef<HTMLDivElement | null>(null)
   const [xRange, setXRange] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
+    if (isMobile) return
+
     const updateRange = () => {
       if (trackRef.current) {
         setXRange(trackRef.current.scrollWidth - window.innerWidth)
       }
     }
     
-    updateRange()
+    // Slight delay to ensure content layout is fully rendered
+    const timer = setTimeout(updateRange, 100)
+    
     window.addEventListener("resize", updateRange)
-    return () => window.removeEventListener("resize", updateRange)
-  }, [])
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener("resize", updateRange)
+    }
+  }, [isMobile])
   
   // We use scrollYProgress on the whole section wrapper (which is 400vh tall).
   const { scrollYProgress } = useScroll({
@@ -33,6 +41,87 @@ export function Projects() {
   const x = useTransform(scrollYProgress, [0, 1], [0, -xRange])
 
   const [activeProject, setActiveProject] = useState<number | null>(null)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener("resize", checkMobile)
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
+
+  if (isMobile) {
+    return (
+      <section id="projects" className="py-20 px-6 bg-background">
+        <div className="max-w-7xl mx-auto flex flex-col mb-12">
+          <span className="text-xs font-sans uppercase tracking-widest text-muted-foreground mb-2">03 / Projects</span>
+          <h2 className="text-4xl font-serif font-normal tracking-tight text-foreground">Selected Works</h2>
+        </div>
+
+        <div className="grid grid-cols-1 gap-8 max-w-7xl mx-auto">
+          {projectsData.map((project, i) => (
+            <div 
+              key={i} 
+              className="relative rounded-3xl overflow-hidden aspect-[4/5] sm:aspect-square bg-[#111111] border border-border flex flex-col justify-end p-6 group"
+            >
+              {/* Background Cover Image */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center opacity-40 transition-transform duration-700 ease-out group-active:scale-105"
+                style={{ 
+                  backgroundImage: `url("${project.image}")`, 
+                }} 
+              />
+              {/* Dark Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/85 to-transparent pointer-events-none" />
+
+              {/* Active Text Info */}
+              <div className="relative z-10 space-y-4">
+                <div>
+                  <span className="text-[10px] font-sans text-white/50 uppercase tracking-widest">{project.year}</span>
+                  <h3 className="text-2xl sm:text-3xl font-serif text-white tracking-tight mt-1">{project.title}</h3>
+                  {project.company && (
+                    <div className="text-xs font-medium text-white/40 tracking-wide uppercase mt-1">{project.company}</div>
+                  )}
+                </div>
+
+                <p className="text-white/70 font-light text-sm leading-relaxed line-clamp-3">{project.desc}</p>
+
+                {/* Tech stack badges */}
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tech.map((t, index) => (
+                     <span key={index} className="text-[10px] font-sans uppercase tracking-wider text-black bg-white/95 px-2.5 py-1 rounded-sm">{t}</span>
+                  ))}
+                </div>
+
+                {/* Actions */}
+                <div className="flex gap-6 pt-3 border-t border-white/10 mt-2">
+                   <Link href={`/projects/${project.slug}`} className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-white hover:text-white/60 transition-colors">
+                      View Details <ArrowRight size={14} />
+                   </Link>
+                   <a href={project.repo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-white hover:text-white/60 transition-colors">
+                      Live Demo <ExternalLink size={14} />
+                   </a>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {/* Show More Projects */}
+          <div className="pt-8 flex flex-col items-center justify-center">
+            <Link href="/work" className="group flex items-center justify-center flex-col gap-4 text-center w-full">
+              <div className="h-28 w-28 rounded-full border border-border flex items-center justify-center bg-foreground text-background transition-colors duration-500 hover:scale-105 ease-out shadow-sm">
+                <span className="text-xs tracking-widest uppercase font-sans font-medium">Show More</span>
+              </div>
+              <span className="font-serif text-lg tracking-tight text-muted-foreground group-hover:text-foreground transition-colors">
+                 Discover All Projects
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section ref={targetRef} id="projects" className="relative h-[400vh] bg-background">

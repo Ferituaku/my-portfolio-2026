@@ -20,12 +20,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {/* Left Side (Fixed on Desktop) */}
       <div className="lg:w-1/2 lg:fixed lg:h-screen p-8 md:p-12 lg:p-16 flex flex-col justify-between z-10">
          <div>
-           {/* Navigation Meta */}
-           <div className="flex items-center gap-4 mb-24 md:mb-32">
-              <Link href="/#projects" className="text-xs uppercase tracking-widest font-sans hover:opacity-60 transition-opacity flex items-center gap-2">
-                <ArrowLeft size={16} /> [ Back to Portfolio ]
-              </Link>
-           </div>
+            {/* Navigation Meta */}
+            <div className="flex items-center justify-center md:justify-start gap-4 mb-16 md:mb-32 pt-20 md:pt-0">
+               <Link href="/#projects" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-border bg-background/80 backdrop-blur-md text-xs uppercase tracking-widest font-sans font-medium text-foreground hover:bg-foreground hover:text-background transition-all shadow-sm">
+                 <ArrowLeft size={14} /> Back to Portfolio
+               </Link>
+            </div>
 
            {/* Title */}
            <h1 className="text-5xl md:text-7xl lg:text-[5vw] leading-[0.9] font-serif tracking-tighter mb-12 uppercase">
