@@ -119,8 +119,19 @@
   * {
     @apply border-border outline-ring/50;
   }
-  body {
+  html, body {
     @apply bg-background text-foreground;
+    min-height: 100dvh;
+    /* Prevent unwanted horizontal overflow on mobile webkit engines */
+    overflow-x: hidden;
+  }
+
+  /* Support for iOS status bar safe area padding */
+  .safe-pt {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+  .safe-pb {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   /* Custom Monochrome Text Selection */
@@ -129,5 +140,13 @@
   }
   ::-moz-selection {
     @apply bg-foreground text-background;
+  }
+}
+
+/* Hover-free / Touch media query for mobile screens */
+@media (hover: none) {
+  .touch-active-reveal {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

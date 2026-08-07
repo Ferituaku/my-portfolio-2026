@@ -11,11 +11,15 @@ export function CustomCursor() {
   const cursorY = useMotionValue(-100)
 
   useEffect(() => {
+    // Check if touch device / mobile screen ratio without hover capability
+    const isTouch = window.matchMedia('(hover: none) or (pointer: coarse)').matches
+    if (isTouch) return
+
     const updateMousePosition = (e: MouseEvent) => {
       cursorX.set(e.clientX - 100) // 100 is half the width to center it
       cursorY.set(e.clientY - 100)
       
-      // Calculate if we've scrolled past the hero section (approx 100vh)
+      // Calculate if we've scrolled past the hero section
       const scrolledPastHero = window.scrollY > window.innerHeight * 0.5
 
       if (scrolledPastHero) {

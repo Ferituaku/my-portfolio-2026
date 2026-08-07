@@ -10,8 +10,8 @@ export default function Home() {
   return (
     <>
       <Hero />
-      {/* Main content with mb-[50vh] to reveal fixed footer */}
-      <main className="relative z-10 bg-background mt-[100vh] shadow-2xl shadow-black mb-[50vh]">
+      {/* Main content with mb-[50dvh] to reveal fixed footer */}
+      <main className="relative z-10 bg-background mt-[100dvh] shadow-2xl shadow-black mb-[50dvh]">
         <About />
         <Work />
         <Projects />

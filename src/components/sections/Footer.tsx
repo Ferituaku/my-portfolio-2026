@@ -37,7 +37,7 @@ export function Footer() {
   return (
     <footer 
       ref={containerRef}
-      className="fixed bottom-0 left-0 w-full h-[50vh] z-0 flex flex-col justify-end overflow-hidden bg-black text-white"
+      className="fixed bottom-0 left-0 w-full h-[50dvh] z-0 flex flex-col justify-end overflow-hidden bg-black text-white pb-[env(safe-area-inset-bottom,0px)]"
     >
       {/* Background Video with Parallax */}
       <motion.div 
@@ -61,7 +61,7 @@ export function Footer() {
       {/* Back to Top Button (Inside Footer) */}
       <button 
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="absolute bottom-12 right-6 md:right-12 z-50 flex items-center gap-2 group cursor-pointer"
+        className="absolute bottom-[calc(3rem+env(safe-area-inset-bottom,0px))] right-6 md:right-12 z-50 flex items-center gap-2 group cursor-pointer"
       >
         <span className="text-sm font-mono uppercase tracking-widest opacity-70 group-hover:opacity-100 transition-opacity hidden md:block">
           Back to top

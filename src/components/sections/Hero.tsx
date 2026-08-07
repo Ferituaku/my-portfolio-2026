@@ -19,12 +19,15 @@ export function Hero() {
   const y = useSpring(mouseY, springConfig)
   
   useEffect(() => {
-    setVh(window.innerHeight)
+    const handleResize = () => setVh(window.innerHeight)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   const { scrollY } = useScroll()
-  const opacity = useTransform(scrollY, [vh * 0.8, vh], [1, 0])
-  const pointerEvents = useTransform(scrollY, (y) => y > vh ? 'none' : 'auto')
+  const opacity = useTransform(scrollY, [vh * 0.7, Math.max(vh, 1)], [1, 0])
+  const pointerEvents = useTransform(scrollY, (y) => y > (vh || 500) ? 'none' : 'auto')
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e
@@ -34,7 +37,7 @@ export function Hero() {
     const xPct = (clientX / innerWidth - 0.5) * 2
     const yPct = (clientY / innerHeight - 0.5) * 2
     
-    // Move slightly in opposite direction for parallax (max 20px)
+    // Move slightly in opposite direction for parallax (max 40px)
     mouseX.set(xPct * -40)
     mouseY.set(yPct * -40)
   }
@@ -44,7 +47,7 @@ export function Hero() {
       ref={ref}
       style={{ opacity, pointerEvents }}
       onMouseMove={handleMouseMove}
-      className="fixed top-0 left-0 w-full h-[100dvh] z-[1] overflow-hidden flex items-center justify-center bg-black"
+      className="fixed top-0 left-0 w-full h-[100dvh] z-[1] overflow-hidden flex items-center justify-center bg-black pt-[env(safe-area-inset-top,0px)]"
     >
       <motion.div
         style={{ x, y, scale: 1.1 }}
@@ -66,11 +69,11 @@ export function Hero() {
       <div className="absolute inset-0 bg-black/40 z-[1] pointer-events-none" />
 
 
-      <div className="relative z-10 text-center text-white mix-blend-difference select-none pointer-events-none">
-        <h1 className="text-6xl md:text-[12vw] font-serif font-normal tracking-tight mb-2 animate-in fade-in slide-in-from-bottom-10 duration-1000 leading-none">
+      <div className="relative z-10 text-center text-white mix-blend-difference select-none pointer-events-none px-4">
+        <h1 className="text-5xl sm:text-7xl md:text-[12vw] font-serif font-normal tracking-tight mb-2 animate-in fade-in slide-in-from-bottom-10 duration-1000 leading-none">
           Ferro Putra
         </h1>
-        <p className="text-sm md:text-base font-sans tracking-[0.2em] uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-300 opacity-80">
+        <p className="text-xs sm:text-sm md:text-base font-sans tracking-[0.2em] uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-300 opacity-80">
           Full Stack Developer • AI Engineer
         </p>
       </div>
@@ -78,7 +81,7 @@ export function Hero() {
       {/* Floating Contact Button */}
       <motion.a
         href="/contact"
-        className="absolute bottom-8 right-6 md:right-12 z-50 w-20 h-20 md:w-24 md:h-24 rounded-full border border-white/30 flex items-center justify-center overflow-hidden transition-colors duration-500 hover:bg-white"
+        className="absolute bottom-8 right-6 md:right-12 z-50 w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 rounded-full border border-white/30 flex items-center justify-center overflow-hidden transition-colors duration-500 hover:bg-white pb-[env(safe-area-inset-bottom,0px)]"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1, delay: 0.8 }}
@@ -86,7 +89,7 @@ export function Hero() {
       >
         {/* Slanted Arrow */}
         <motion.span 
-          className="z-10 text-xl md:text-2xl"
+          className="z-10 text-lg sm:text-xl md:text-2xl"
           variants={{
              hover: { rotate: 0, scale: 1.2, color: "#000000" }
           }}

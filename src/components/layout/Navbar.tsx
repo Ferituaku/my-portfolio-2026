@@ -28,7 +28,7 @@ export function Navbar() {
     const ctx = gsap.context(() => {
       timeline.current = gsap.timeline({ paused: true })
         .to(overlayRef.current, {
-          height: '100vh',
+          height: '100dvh',
           duration: 0.8,
           ease: 'power4.inOut',
         })
@@ -56,10 +56,10 @@ export function Navbar() {
 
   return (
     <>
-      {/* Trigger Button */}
+      {/* Trigger Button with Safe Area Offset */}
       <button
         onClick={toggleMenu}
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-[60] mix-blend-difference text-white p-2 hover:scale-110 transition-transform duration-300"
+        className="fixed top-[calc(1.25rem+env(safe-area-inset-top,0px))] left-1/2 -translate-x-1/2 z-[60] mix-blend-difference text-white p-2 hover:scale-110 transition-transform duration-300"
         aria-label="Toggle Menu"
       >
         <span className="sr-only">Toggle Menu</span>
@@ -91,7 +91,7 @@ export function Navbar() {
       {/* Full Screen Overlay */}
       <div
         ref={overlayRef}
-        className="fixed inset-x-0 top-0 h-0 bg-foreground z-[55] overflow-hidden flex flex-col justify-center items-center text-background"
+        className="fixed inset-x-0 top-0 h-0 bg-foreground z-[55] overflow-hidden flex flex-col justify-center items-center text-background pt-[env(safe-area-inset-top,0px)] pb-[env(safe-area-inset-bottom,0px)]"
       >
         <nav className="w-full flex-1 flex flex-col justify-center">
           <ul
@@ -131,7 +131,7 @@ export function Navbar() {
           </ul>
         </nav>
         
-        <div className="absolute bottom-10 text-xs tracking-widest opacity-50 font-sans uppercase">
+        <div className="absolute bottom-[calc(2rem+env(safe-area-inset-bottom,0px))] text-xs tracking-widest opacity-50 font-sans uppercase">
           Ferro Itu Aku (v2026)
         </div>
       </div>
