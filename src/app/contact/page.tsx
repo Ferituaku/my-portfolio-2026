@@ -2,6 +2,7 @@
 
 import { Footer } from "@/components/sections/Footer"
 import { ScrollSection } from "@/components/ui/ScrollSection"
+import { ScrambleText } from "@/components/ui/ScrambleText"
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
 import { Send, CheckCircle2, ArrowRight } from "lucide-react"
@@ -198,14 +199,14 @@ export default function ContactPage() {
 
         <ScrollSection className="container mx-auto px-6 md:px-12 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-16 md:mb-24">
-             <motion.span 
+             <motion.div 
                initial={{ opacity: 0, y: 15 }}
                animate={{ opacity: 0.5, y: 0 }}
                transition={{ duration: 0.6 }}
-               className="text-xs font-mono uppercase tracking-[0.3em] block mb-4"
+               className="mb-4"
              >
-               05 / Contact
-             </motion.span>
+               <ScrambleText text="05 / Contact" className="text-xs font-mono uppercase tracking-[0.3em] inline-block" />
+             </motion.div>
              <motion.h1 
                initial={{ opacity: 0, y: 30 }}
                animate={{ opacity: 1, y: 0 }}

@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowRight, ExternalLink } from "lucide-react"
 import Link from "next/link"
 import { projectsData } from "@/lib/projects"
+import { ScrambleText } from "@/components/ui/ScrambleText"
 
 export function Projects() {
   const targetRef = useRef<HTMLDivElement | null>(null)
@@ -55,7 +56,7 @@ export function Projects() {
     return (
       <section id="projects" className="py-20 px-6 bg-background">
         <div className="max-w-7xl mx-auto flex flex-col mb-12">
-          <span className="text-xs font-sans uppercase tracking-widest text-muted-foreground mb-2">03 / Projects</span>
+          <ScrambleText text="03 / Projects" className="text-xs font-sans uppercase tracking-widest text-muted-foreground mb-2" />
           <h2 className="text-4xl font-serif font-normal tracking-tight text-foreground">Selected Works</h2>
         </div>
 
@@ -131,7 +132,7 @@ export function Projects() {
         <div className="absolute top-10 sm:top-14 md:top-16 left-6 md:left-12 z-10 pointer-events-none">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-[90vw] mb-4 pointer-events-auto">
              <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif font-normal tracking-tight">Selected Works</h2>
-             <span className="text-xs sm:text-sm font-sans uppercase tracking-widest text-muted-foreground hidden md:block">03 / Projects</span>
+             <ScrambleText text="03 / Projects" className="text-xs sm:text-sm font-sans uppercase tracking-widest text-muted-foreground hidden md:block" />
           </div>
         </div>
 

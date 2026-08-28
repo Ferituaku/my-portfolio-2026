@@ -2,6 +2,7 @@
 
 import { ScrollSection } from "@/components/ui/ScrollSection"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { ScrambleText } from "@/components/ui/ScrambleText"
 import Image from "next/image"
 
 const EXPERIENCE = [
@@ -44,7 +45,7 @@ export function Work() {
       <ScrollSection>
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-border pb-6">
            <h2 className="text-5xl md:text-7xl font-serif font-normal tracking-tight mb-4 text-foreground">Work Experience</h2>
-           <span className="text-sm font-sans uppercase tracking-widest text-muted-foreground mb-4">02 / Experience</span>
+           <ScrambleText text="02 / Experience" className="text-sm font-sans uppercase tracking-widest text-muted-foreground mb-4" />
         </div>
         
         <Accordion type="single" collapsible className="w-full">

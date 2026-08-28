@@ -1,13 +1,14 @@
 'use client'
 
 import { ScrollSection } from "@/components/ui/ScrollSection"
+import { ScrambleText } from "@/components/ui/ScrambleText"
 
 export function About() {
   return (
     <section id="about" className="min-h-[60dvh] flex items-center justify-center py-20 md:py-32 px-6 md:px-12 bg-background">
       <ScrollSection className="w-full max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-12 md:gap-16">
         <div className="w-full md:w-5/12">
-          <span className="text-xs md:text-sm font-sans tracking-widest text-muted-foreground uppercase mb-4 block">01 / About Me</span>
+          <ScrambleText text="01 / About Me" className="text-xs md:text-sm font-sans tracking-widest text-muted-foreground uppercase mb-4 block" />
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif font-normal leading-tight tracking-tight text-foreground mb-6">
             Bridging Logic <br className="hidden sm:inline" />& Machine Intelligence
           </h2>

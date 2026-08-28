@@ -1,6 +1,7 @@
 'use client'
 
 import { ScrollSection } from "@/components/ui/ScrollSection"
+import { ScrambleText } from "@/components/ui/ScrambleText"
 import Image from "next/image"
 
 const TECH_CATEGORIES = [
@@ -40,7 +41,9 @@ export function TechStack() {
   return (
      <section id="stack" className="py-24 border-y border-border bg-background">
        <ScrollSection>
-           <h2 className="text-sm font-sans tracking-widest uppercase mb-16 text-center text-muted-foreground">04 / Stack</h2>
+           <div className="flex justify-center mb-16">
+             <ScrambleText as="h2" text="04 / Stack" className="text-sm font-sans tracking-widest uppercase text-center text-muted-foreground" />
+           </div>
            
            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
              {TECH_CATEGORIES.map((category, idx) => (
