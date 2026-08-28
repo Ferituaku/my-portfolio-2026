@@ -57,7 +57,7 @@ export function Projects() {
       <section id="projects" className="py-20 px-6 bg-background">
         <div className="max-w-7xl mx-auto flex flex-col mb-12">
           <ScrambleText text="03 / Projects" className="text-xs font-sans uppercase tracking-widest text-muted-foreground mb-2" />
-          <h2 className="text-4xl font-serif font-normal tracking-tight text-foreground">Selected Works</h2>
+          <h2 className="text-4xl font-serif font-normal tracking-tight text-foreground">Projects Showcase</h2>
         </div>
 
         <div className="grid grid-cols-1 gap-8 max-w-7xl mx-auto">
@@ -131,7 +131,7 @@ export function Projects() {
         {/* Header container fixed relative to the screen, blending with the scroll logic */}
         <div className="absolute top-10 sm:top-14 md:top-16 left-6 md:left-12 z-10 pointer-events-none">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end w-[90vw] mb-4 pointer-events-auto">
-             <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif font-normal tracking-tight">Selected Works</h2>
+             <h2 className="text-4xl sm:text-5xl md:text-7xl font-serif font-normal tracking-tight">Projects Showcase</h2>
              <ScrambleText text="03 / Projects" className="text-xs sm:text-sm font-sans uppercase tracking-widest text-muted-foreground hidden md:block" />
           </div>
         </div>
