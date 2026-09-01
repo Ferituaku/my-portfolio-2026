@@ -1,37 +1,42 @@
 'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
-import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
 import { ScrambleText } from '@/components/ui/ScrambleText'
-import { Calendar, Building2, ChevronDown, Sparkles, ChevronRight } from 'lucide-react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-interface ExperienceItem {
-  id: string
-  index: string
-  role: string
-  company: string
-  period: string
-  location: string
-  type: string
-  description: string
-  highlights: string[]
-  skills: string[]
-  logo: string
-  image?: string
-}
+import { WorkTimelineNode } from './work/WorkTimelineNode'
+import { WorkExperienceCard, type ExperienceItem } from './work/WorkExperienceCard'
 
 const EXPERIENCES: ExperienceItem[] = [
   {
-    id: 'astra-intern',
+    id: 'ml-assistant',
     index: '01',
-    role: 'CIST - Divisi HOTD Generative AI Intern',
+    role: 'Machine Learning Laboratory Assistant',
+    company: 'Universitas Diponegoro',
+    period: 'Sep – Nov 2025',
+    location: 'Semarang, Indonesia',
+    category: 'Akademik',
+    isLatest: true,
+    description:
+      'Guided 20+ undergraduate computer science students through the end-to-end Machine Learning lifecycle, covering data engineering, algorithmic modeling, and evaluation metrics.',
+    highlights: [
+      'Facilitated hands-on labs in supervised/unsupervised learning and deep neural networks',
+      'Demonstrated rigorous model validation using Accuracy, Precision, Recall, and F1-Scores',
+      'Mentored student capstone implementations using PyTorch and Scikit-learn',
+    ],
+    skills: ['Machine Learning', 'Python', 'PyTorch', 'Scikit-learn', 'EDA', 'Model Evaluation'],
+    logo: '/work-logo/Universitas-Diponegoro-Semarang-Logo.png',
+    image: '/work/machine-learning-lab.jpeg',
+  },
+  {
+    id: 'astra-intern',
+    index: '02',
+    role: 'CIST, Divisi HOTD Generative AI Intern',
     company: 'PT Astra International Tbk',
-    period: 'Jan 2025 – Mar 2025',
+    period: 'Jan – Mar 2025',
     location: 'Jakarta, Indonesia',
-    type: 'Corporate Internship',
+    category: 'Industri',
+    isFocalPoint: true,
     description:
       'Engineered an enterprise-grade full-stack monitoring system for generative AI initiatives and robotic process automation (RPA). Designed sleek UI wireframes and integrated real-time data feeds with Python Flask backend APIs.',
     highlights: [
@@ -44,32 +49,13 @@ const EXPERIENCES: ExperienceItem[] = [
     image: '/work/astra-docum.jpeg',
   },
   {
-    id: 'ml-assistant',
-    index: '02',
-    role: 'Machine Learning Laboratory Assistant',
-    company: 'Universitas Diponegoro',
-    period: 'Sep 2025 – Nov 2025',
-    location: 'Semarang, Indonesia',
-    type: 'Academic & Research',
-    description:
-      'Guided 50+ undergraduate computer science students through the end-to-end Machine Learning lifecycle, covering data engineering, algorithmic modeling, and evaluation metrics.',
-    highlights: [
-      'Facilitated hands-on labs in supervised/unsupervised learning and deep neural networks',
-      'Demonstrated rigorous model validation using Accuracy, Precision, Recall, and F1-Scores',
-      'Mentored student capstone implementations using PyTorch and Scikit-learn',
-    ],
-    skills: ['Machine Learning', 'Python', 'PyTorch', 'Scikit-learn', 'EDA', 'Model Evaluation'],
-    logo: '/work-logo/Universitas-Diponegoro-Semarang-Logo.png',
-    image: '/work/machine-learning-lab.jpeg',
-  },
-  {
     id: 'os-assistant',
     index: '03',
     role: 'Operating Systems Laboratory Assistant',
     company: 'Universitas Diponegoro',
-    period: 'Sep 2024 – Nov 2024',
+    period: 'Sep – Nov 2024',
     location: 'Semarang, Indonesia',
-    type: 'Academic',
+    category: 'Akademik',
     description:
       'Instructed undergraduate students on core operating system paradigms, low-level Linux systems programming, process concurrency, and memory management.',
     highlights: [
@@ -87,7 +73,7 @@ const EXPERIENCES: ExperienceItem[] = [
     company: 'HMIF Universitas Diponegoro',
     period: '2023 – 2024',
     location: 'Semarang, Indonesia',
-    type: 'Leadership & Organization',
+    category: 'Organisasi',
     description:
       'Spearheaded faculty-wide sports competitions, creative festivals, and student association programs, coordinating cross-divisional operations and logistics.',
     highlights: [
@@ -111,19 +97,16 @@ export function Work() {
     height: 0,
   })
 
-  // Collapsible Dropdown State (First item open by default)
-  const [expandedIds, setExpandedIds] = useState<Record<string, boolean>>({
-    'astra-intern': true,
-  })
+  const [expandedMap, setExpandedMap] = useState<Record<string, boolean>>({})
 
-  const toggleDropdown = (id: string) => {
-    setExpandedIds((prev) => ({
+  const handleCardToggle = (id: string, isExpanded: boolean) => {
+    setExpandedMap((prev) => ({
       ...prev,
-      [id]: !prev[id],
+      [id]: isExpanded,
     }))
   }
 
-  // Calculate exact coordinates from center of first dot to center of last dot
+  // Calculate coordinates accurately from center of first dot to center of last dot
   const recalculateLine = useCallback(() => {
     const container = containerRef.current
     if (!container || dotsRef.current.length === 0) return
@@ -149,7 +132,7 @@ export function Work() {
     recalculateLine()
     const timer = setTimeout(recalculateLine, 350)
     return () => clearTimeout(timer)
-  }, [expandedIds, recalculateLine])
+  }, [expandedMap, recalculateLine])
 
   useEffect(() => {
     window.addEventListener('resize', recalculateLine)
@@ -163,6 +146,20 @@ export function Work() {
     const lineProgress = lineProgressRef.current
 
     if (!container || !lineProgress) return
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (prefersReducedMotion) {
+      lineProgress.style.transform = 'scaleY(1)'
+      cardsRef.current.forEach((card) => {
+        if (card) {
+          card.style.opacity = '1'
+          card.style.transform = 'none'
+          card.style.filter = 'none'
+        }
+      })
+      return
+    }
 
     // Thread line progress scale driven by GSAP ScrollTrigger
     const lineTrigger = gsap.fromTo(
@@ -202,7 +199,7 @@ export function Work() {
           scrollTrigger: {
             trigger: card,
             start: 'top 88%',
-            once: true, // Permanent presence: cards will not vanish on slight scroll
+            once: true,
           },
         }
       )
@@ -267,7 +264,7 @@ export function Work() {
           {/* Timeline Experience Cards in a 2-Column Row Layout */}
           <div className="space-y-8 sm:space-y-10">
             {EXPERIENCES.map((item, index) => {
-              const isExpanded = !!expandedIds[item.id]
+              const isExpanded = !!expandedMap[item.id]
 
               return (
                 <div
@@ -278,165 +275,25 @@ export function Work() {
                   className="relative flex items-start gap-4 sm:gap-6 md:gap-8 group"
                 >
                   {/* LEFT COLUMN: Dot on Thread (Strictly Outside Card) */}
-                  <div className="relative z-10 flex flex-col items-center shrink-0 w-8 sm:w-10 pt-[22px] sm:pt-[24px]">
-                    <div
-                      ref={(el) => {
-                        dotsRef.current[index] = el
-                      }}
-                      className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-background border-2 border-border/90 group-hover:border-foreground transition-all duration-300 flex items-center justify-center shadow-xs"
-                    >
-                      <div
-                        className={`rounded-full transition-all duration-300 ${
-                          isExpanded
-                            ? 'w-2 h-2 sm:w-2.5 sm:h-2.5 bg-foreground scale-110'
-                            : 'w-1.5 h-1.5 sm:w-2 sm:h-2 bg-foreground/60 group-hover:bg-foreground group-hover:scale-125'
-                        }`}
-                      />
-                    </div>
+                  <div
+                    ref={(el) => {
+                      dotsRef.current[index] = el
+                    }}
+                    className="relative z-10 flex flex-col items-center shrink-0 w-8 sm:w-10 pt-[22px] sm:pt-[24px]"
+                  >
+                    <WorkTimelineNode
+                      isLatest={item.isLatest}
+                      isFocalPoint={item.isFocalPoint}
+                      isExpanded={isExpanded}
+                    />
                   </div>
 
-                  {/* RIGHT COLUMN: Minimalist Card Container */}
-                  <div className="flex-1 min-w-0 rounded-2xl border border-border/70 bg-card/40 backdrop-blur-sm transition-all duration-300 hover:border-foreground/25 hover:bg-card/70 shadow-xs overflow-hidden">
-                    {/* Minimalist Card Header / Toggle Bar */}
-                    <div
-                      onClick={() => toggleDropdown(item.id)}
-                      className="p-5 sm:p-6 cursor-pointer select-none flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition-colors"
-                    >
-                      <div className="flex items-start sm:items-center gap-3.5 sm:gap-4 flex-1 min-w-0">
-                        {item.logo && (
-                          <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-xl border border-border/80 bg-white p-1.5 shrink-0 overflow-hidden shadow-xs flex items-center justify-center">
-                            <Image
-                              src={item.logo}
-                              alt={item.company}
-                              fill
-                              className="object-contain p-1 select-none"
-                            />
-                          </div>
-                        )}
-
-                        <div className="space-y-1 min-w-0">
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="text-xs font-mono uppercase tracking-wider text-muted-foreground flex items-center gap-1">
-                              <Building2 className="w-3 h-3" />
-                              {item.company}
-                            </span>
-                            <span className="text-[10px] font-mono text-muted-foreground/60">•</span>
-                            <span className="text-[11px] font-mono text-muted-foreground/80">
-                              {item.location}
-                            </span>
-                          </div>
-
-                          <h3 className="text-lg sm:text-xl md:text-2xl font-serif font-normal text-foreground tracking-tight truncate sm:whitespace-normal">
-                            {item.role}
-                          </h3>
-                        </div>
-                      </div>
-
-                      {/* Right Period Badge & Dropdown Chevron */}
-                      <div className="flex items-center justify-between sm:justify-end gap-3 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-border/40">
-                        <span className="text-[11px] font-mono tracking-wider px-2.5 py-1 rounded-full border border-border bg-muted/30 text-foreground flex items-center gap-1.5">
-                          <Calendar className="w-3 h-3 text-muted-foreground" />
-                          {item.period}
-                        </span>
-
-                        <button
-                          type="button"
-                          aria-label="Toggle details"
-                          className="flex items-center gap-1 text-xs font-mono uppercase tracking-wider px-3 py-1 rounded-lg border border-border/80 bg-background/80 hover:bg-muted text-foreground transition-all duration-200"
-                        >
-                          <span className="hidden sm:inline text-[11px]">
-                            {isExpanded ? 'Hide' : 'Details'}
-                          </span>
-                          <ChevronDown
-                            className={`w-3.5 h-3.5 transition-transform duration-300 ${
-                              isExpanded ? 'rotate-180 text-foreground' : 'text-muted-foreground'
-                            }`}
-                          />
-                        </button>
-                      </div>
-                    </div>
-
-                    {/* Expandable Dropdown Content */}
-                    <AnimatePresence initial={false}>
-                      {isExpanded && (
-                        <motion.div
-                          key="content"
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                          className="overflow-hidden border-t border-border/50 bg-muted/10"
-                        >
-                          <div className="p-5 sm:p-6 md:p-8 space-y-6">
-                            <div className="flex flex-col lg:flex-row gap-6 lg:gap-10 justify-between items-start">
-                              {/* Left Details */}
-                              <div className="flex-1 space-y-5">
-                                {/* Description */}
-                                <p className="text-sm sm:text-base font-sans font-light leading-relaxed text-muted-foreground">
-                                  {item.description}
-                                </p>
-
-                                {/* Highlights */}
-                                <div className="space-y-2 pt-1 border-t border-border/40">
-                                  <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground block mb-2">
-                                    Key Responsibilities & Deliverables
-                                  </span>
-                                  {item.highlights.map((highlight, hIdx) => (
-                                    <div
-                                      key={hIdx}
-                                      className="flex items-start gap-2.5 text-xs sm:text-sm text-foreground/90 font-sans"
-                                    >
-                                      <ChevronRight className="w-3.5 h-3.5 text-foreground/50 shrink-0 mt-0.5" />
-                                      <span className="leading-relaxed">{highlight}</span>
-                                    </div>
-                                  ))}
-                                </div>
-
-                                {/* Skills / Tech Stack */}
-                                <div className="pt-2">
-                                  <span className="text-[11px] font-mono uppercase tracking-wider text-muted-foreground block mb-2">
-                                    Technologies & Domains
-                                  </span>
-                                  <div className="flex flex-wrap gap-1.5">
-                                    {item.skills.map((skill) => (
-                                      <span
-                                        key={skill}
-                                        className="text-[11px] font-mono uppercase tracking-wider px-2.5 py-1 rounded-md border border-border/70 bg-background text-foreground/80"
-                                      >
-                                        {skill}
-                                      </span>
-                                    ))}
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Right Documentation Photo Preview (if available) */}
-                              {item.image && (
-                                <div className="w-full lg:w-4/12 shrink-0">
-                                  <div className="group/img relative rounded-xl overflow-hidden border border-border aspect-[4/3] bg-muted/20 shadow-xs">
-                                    <Image
-                                      src={item.image}
-                                      alt={`${item.role} documentation`}
-                                      fill
-                                      sizes="(max-width: 1024px) 100vw, 360px"
-                                      className="object-cover object-center transition-transform duration-500 group-hover/img:scale-105"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-                                    <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between text-white text-[10px] font-mono tracking-wider">
-                                      <span className="flex items-center gap-1 bg-black/50 backdrop-blur-sm px-2 py-0.5 rounded border border-white/10">
-                                        <Sparkles className="w-2.5 h-2.5" />
-                                        Doc Preview
-                                      </span>
-                                      <span className="opacity-75">#{item.index}</span>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+                  {/* RIGHT COLUMN: Minimalist Card Container with Native Details/Summary */}
+                  <div className="flex-1 min-w-0">
+                    <WorkExperienceCard
+                      item={item}
+                      onToggle={(nextExpanded) => handleCardToggle(item.id, nextExpanded)}
+                    />
                   </div>
                 </div>
               )

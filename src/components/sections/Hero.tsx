@@ -6,8 +6,10 @@ import { useScroll, useTransform, motion, useMotionValue, useSpring } from 'fram
 import { useRef, useState, useEffect } from 'react'
 
 export function Hero() {
-  const ref = useRef(null)
+  const ref = useRef<HTMLDivElement>(null)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const [vh, setVh] = useState(0)
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   
   // Mouse motion values
   const mouseX = useMotionValue(0)
@@ -28,6 +30,78 @@ export function Hero() {
   const { scrollY } = useScroll()
   const opacity = useTransform(scrollY, [vh * 0.7, Math.max(vh, 1)], [1, 0])
   const pointerEvents = useTransform(scrollY, (y) => y > (vh || 500) ? 'none' : 'auto')
+
+  // Robust video playback & autoplay recovery logic
+  useEffect(() => {
+    const video = videoRef.current
+    if (!video) return
+
+    // Ensure DOM properties are strictly muted for browser autoplay compliance
+    video.muted = true
+    video.defaultMuted = true
+
+    const playVideo = () => {
+      if (video.paused) {
+        const promise = video.play()
+        if (promise !== undefined) {
+          promise.catch(() => {
+            // Autoplay prevented by browser policy; will retry on first user interaction
+          })
+        }
+      }
+    }
+
+    // Initial attempt
+    playVideo()
+
+    // Resume when tab becomes active / visible again
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible') {
+        playVideo()
+      }
+    }
+
+    // User interaction fallback (unlocks autoplay if policy blocked it initially)
+    const handleFirstInteraction = () => {
+      playVideo()
+      cleanupInteractionListeners()
+    }
+
+    const cleanupInteractionListeners = () => {
+      window.removeEventListener('touchstart', handleFirstInteraction)
+      window.removeEventListener('click', handleFirstInteraction)
+      window.removeEventListener('scroll', handleFirstInteraction)
+      window.removeEventListener('keydown', handleFirstInteraction)
+    }
+
+    window.addEventListener('touchstart', handleFirstInteraction, { passive: true })
+    window.addEventListener('click', handleFirstInteraction, { passive: true })
+    window.addEventListener('scroll', handleFirstInteraction, { passive: true })
+    window.addEventListener('keydown', handleFirstInteraction, { passive: true })
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    // Pause when offscreen to save battery/GPU, auto-resume when scrolled back into view
+    let observer: IntersectionObserver | null = null
+    if (ref.current && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            playVideo()
+          } else {
+            video.pause()
+          }
+        },
+        { threshold: 0.05 }
+      )
+      observer.observe(ref.current)
+    }
+
+    return () => {
+      cleanupInteractionListeners()
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      if (observer) observer.disconnect()
+    }
+  }, [])
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e
@@ -54,14 +128,23 @@ export function Hero() {
         className="absolute top-0 left-0 w-full h-full"
       >
         <video
+          ref={videoRef}
           autoPlay
           loop
           muted
           playsInline
-          className="w-full h-full object-cover opacity-90"
+          preload="auto"
+          onLoadedData={() => setIsVideoLoaded(true)}
+          onCanPlay={() => {
+            if (videoRef.current?.paused) {
+              videoRef.current.play().catch(() => {})
+            }
+          }}
+          className={`w-full h-full object-cover transition-opacity duration-700 ${isVideoLoaded ? 'opacity-90' : 'opacity-0'}`}
         >
-          {/* Vercel Blob URL */}
+          {/* Primary CDN Blob URL & Local Fallback source */}
           <source src="https://ry74leabzi38ngqg.public.blob.vercel-storage.com/public/bg-hero.mp4" type="video/mp4" />
+          <source src="/bg-hero.mp4" type="video/mp4" />
         </video>
       </motion.div>
 

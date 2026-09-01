@@ -17,6 +17,24 @@ export const projectsData = [
     isLive: true,
   },
   {
+    slug: 'berinkin',
+    title: "Berin'kin",
+    company: 'Universitas Diponegoro',
+    agency: 'Skripsi / Research',
+    role: 'NLP & Full Stack Engineer',
+    status: 'Completed',
+    tech: ['Python', 'Streamlit', 'Sentence BERT', 'MMR', 'NLP', 'Scikit-learn'],
+    desc: 'An extractive multi-document news summarization web platform for Indonesian articles, combining Sentence BERT semantic embeddings and Maximal Marginal Relevance (MMR) to synthesize news without redundancy.',
+    year: '2026',
+    image: "/projects/berin'kin/berinkin2.jpg",
+    showcases: [
+      "/projects/berin'kin/berinkin1.jpg",
+      "/projects/berin'kin/berinkin2.jpg"
+    ],
+    repo: 'https://berinkin.streamlit.app/',
+    isLive: true,
+  },
+  {
     slug: 'silverking-gold',
     title: 'Silverking Gold Platform',
     agency: 'CAI',
@@ -29,7 +47,7 @@ export const projectsData = [
     showcases: [
       '/projects/silverking-by-cai/V1.jpg'
     ],
-    repo: '/under-construction',
+    repo: 'https://www.cahayasilverking.id/',
     isLive: true,
   },
   {

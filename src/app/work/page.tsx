@@ -56,7 +56,7 @@ export default function WorkPage() {
                 key={i} 
                 tabIndex={0}
                 onClick={() => setActiveProjectKey(isActive ? null : cardKey)}
-                className={`group relative h-full w-full overflow-hidden border-r last:border-r-0 border-t border-border/20 cursor-pointer select-none touch-manipulation ${isActive ? 'is-active' : ''}`}
+                className={`group relative h-full w-full overflow-hidden border-r last:border-r-0 border-t border-border/20 cursor-pointer select-none touch-manipulation ${chunk.length === 1 ? 'md:col-span-2' : ''} ${isActive ? 'is-active' : ''}`}
               >
                 {/* Background Image Container */}
                 <div 

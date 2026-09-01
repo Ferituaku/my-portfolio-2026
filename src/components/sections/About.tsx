@@ -216,24 +216,32 @@ export function About() {
               </div>
             </motion.div>
 
-            {/* Quick Actions / Link */}
-            <motion.div variants={itemVariants} className="pt-2 flex flex-wrap items-center gap-4">
-              <Link
-                href="/work"
-                className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider px-5 py-2.5 rounded-full bg-foreground text-background font-medium transition-all duration-300 hover:opacity-90 hover:gap-3"
-              >
-                <span>View Experience</span>
-                <ArrowUpRight className="w-3.5 h-3.5" />
+            {/* Action / View Experience CTA */}
+            <motion.div variants={itemVariants} className="pt-2 flex items-center">
+              <Link href="/work" className="group inline-block">
+                <motion.div
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                  className="relative inline-flex items-center gap-3.5 px-6 py-3.5 rounded-full bg-foreground text-background font-mono text-xs uppercase tracking-widest overflow-hidden shadow-md shadow-foreground/5 hover:shadow-xl hover:shadow-foreground/15 transition-shadow duration-500"
+                >
+                  {/* Interactive status pulse dot */}
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-background opacity-40 group-hover:opacity-75 duration-1000" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-background/80 group-hover:bg-background transition-colors" />
+                  </span>
+
+                  <span className="font-medium tracking-[0.18em]">View Experience</span>
+
+                  {/* Icon Circle with animated sliding arrow */}
+                  <div className="relative w-5 h-5 rounded-full bg-background/15 flex items-center justify-center overflow-hidden transition-colors duration-300 group-hover:bg-background/25">
+                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 ease-out group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+
+                  {/* Ambient sheen sweep reflection on hover */}
+                  <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out bg-gradient-to-r from-transparent via-background/15 to-transparent pointer-events-none" />
+                </motion.div>
               </Link>
-              <a
-                href="/Al Ferro Putra Yusanda-resume-2026.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-wider px-5 py-2.5 rounded-full border border-border bg-background hover:bg-muted/50 text-foreground transition-all duration-300"
-              >
-                <span>Download CV</span>
-                <ArrowUpRight className="w-3.5 h-3.5 opacity-60" />
-              </a>
             </motion.div>
           </div>
         </motion.div>

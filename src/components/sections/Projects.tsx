@@ -2,7 +2,7 @@
 
 import { useRef, useEffect, useState } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, ExternalLink } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { projectsData } from "@/lib/projects"
 import { ScrambleText } from "@/components/ui/ScrambleText"
@@ -95,14 +95,18 @@ export function Projects() {
                   ))}
                 </div>
 
-                {/* Actions */}
-                <div className="flex gap-6 pt-3 border-t border-white/10 mt-2">
-                   <Link href={`/projects/${project.slug}`} className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-white hover:text-white/60 transition-colors">
-                      View Details <ArrowRight size={14} />
+                {/* Action - Details with Smooth Hover Animation */}
+                <div className="pt-3 border-t border-white/10 mt-2">
+                   <Link 
+                     href={`/projects/${project.slug}`} 
+                     className="group/btn relative inline-flex items-center gap-2.5 py-1.5 px-3.5 rounded-full border border-white/20 bg-white/5 backdrop-blur-sm text-xs uppercase tracking-wider text-white font-medium hover:border-white/60 hover:bg-white/15 transition-all duration-300"
+                   >
+                      <span className="relative transition-all duration-300">
+                        View Details
+                        <span className="absolute left-0 bottom-0 w-0 h-[1.5px] bg-white transition-all duration-300 ease-out group-hover/btn:w-full" />
+                      </span>
+                      <ArrowRight size={14} className="transition-transform duration-300 ease-out group-hover/btn:translate-x-1 text-white/80 group-hover/btn:text-white" />
                    </Link>
-                   <a href={project.repo} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-white hover:text-white/60 transition-colors">
-                      Live Demo <ExternalLink size={14} />
-                   </a>
                 </div>
               </div>
             </div>
@@ -160,49 +164,66 @@ export function Projects() {
               <div className={`absolute inset-0 bg-black/30 transition-opacity duration-300 group-hover:bg-black/60 group-active:bg-black/60 pointer-events-none ${isActive ? 'bg-black/60' : ''}`} />
 
               {/* The Hover / Touch Slide Sheet (overlay bottom sheet) */}
-              <div className={`absolute inset-x-0 bottom-0 p-6 md:p-8 translate-y-full flex flex-col justify-end bg-gradient-to-t from-black via-black/90 to-transparent transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0 group-active:translate-y-0 h-full pt-16 sm:pt-20 ${isActive ? 'translate-y-0' : ''}`}>
-                <div className={`flex justify-between items-start mb-2 opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 group-active:opacity-100 group-active:translate-y-0 transition-all duration-500 delay-100 ${isActive ? 'opacity-100 translate-y-0' : ''}`}>
+              <div className={`absolute inset-x-0 bottom-0 p-6 md:p-8 translate-y-full flex flex-col justify-end bg-gradient-to-t from-black via-black/90 to-transparent transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-y-0 group-active:translate-y-0 h-full pt-16 sm:pt-20 ${isActive ? 'translate-y-0' : ''}`}>
+                <div className={`flex justify-between items-start mb-2 opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 group-active:opacity-100 group-active:translate-y-0 transition-all duration-700 delay-100 ${isActive ? 'opacity-100 translate-y-0' : ''}`}>
                   <h3 className="text-2xl sm:text-3xl md:text-5xl font-serif text-white tracking-tight">{project.title}</h3>
                   <span className="text-[10px] sm:text-xs font-sans text-white/70 uppercase px-2.5 py-1 rounded-full border border-white/20 whitespace-nowrap hidden sm:inline-block tracking-widest">{project.year}</span>
                 </div>
                 
                 {project.company && (
-                  <div className={`text-xs sm:text-sm font-medium text-white/50 tracking-wide uppercase mb-2 sm:mb-3 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-active:opacity-100 group-active:translate-y-0 transition-all duration-500 delay-150 ${isActive ? 'opacity-100 translate-y-0' : ''}`}>{project.company}</div>
+                  <div className={`text-xs sm:text-sm font-medium text-white/50 tracking-wide uppercase mb-2 sm:mb-3 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-active:opacity-100 group-active:translate-y-0 transition-all duration-700 delay-150 ${isActive ? 'opacity-100 translate-y-0' : ''}`}>{project.company}</div>
                 )}
                 
-                <p className={`text-white/80 font-light text-sm sm:text-lg md:text-xl md:w-[80%] mb-4 sm:mb-8 leading-relaxed line-clamp-2 sm:line-clamp-3 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-active:opacity-100 group-active:translate-y-0 transition-all duration-500 delay-200 ${isActive ? 'opacity-100 translate-y-0' : ''}`}>{project.desc}</p>
+                <p className={`text-white/80 font-light text-sm sm:text-lg md:text-xl md:w-[80%] mb-4 sm:mb-8 leading-relaxed line-clamp-2 sm:line-clamp-3 opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 group-active:opacity-100 group-active:translate-y-0 transition-all duration-700 delay-200 ${isActive ? 'opacity-100 translate-y-0' : ''}`}>{project.desc}</p>
                 
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end gap-4 sm:gap-6 mt-auto">
-                  
                   {/* Tech stack badges */}
-                  <div className={`flex flex-wrap gap-1.5 sm:gap-2 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-active:opacity-100 group-active:scale-100 transition-all duration-500 delay-300 ${isActive ? 'opacity-100 scale-100' : ''}`}>
+                  <div className={`flex flex-wrap gap-1.5 sm:gap-2 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-active:opacity-100 group-active:scale-100 transition-all duration-700 delay-300 ${isActive ? 'opacity-100 scale-100' : ''} max-w-[calc(100%-8.5rem)]`}>
                     {project.tech.map((t, index) => (
                        <span key={index} className="text-[10px] sm:text-xs font-sans uppercase tracking-wider text-black bg-white/90 px-2.5 py-1 rounded-sm backdrop-blur-sm">{t}</span>
                     ))}
-                  </div>
-
-                  {/* Call to Actions */}
-                  <div className={`flex gap-4 sm:gap-6 opacity-0 scale-95 group-hover:opacity-100 group-hover:scale-100 group-active:opacity-100 group-active:scale-100 transition-all duration-500 delay-400 ${isActive ? 'opacity-100 scale-100' : ''}`}>
-                     <Link href={`/projects/${project.slug}`} onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm uppercase tracking-wider text-white hover:text-white/60 transition-colors">
-                        Details <ArrowRight size={16} />
-                     </Link>
-                     <a href={project.repo} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm uppercase tracking-wider text-white hover:text-white/60 transition-colors">
-                        Demo <ExternalLink size={16} />
-                     </a>
                   </div>
                 </div>
               </div>
 
                {/* Default Text when not hovering/active */}
-               <div className={`absolute inset-x-0 bottom-0 p-6 md:p-8 flex items-end justify-between transition-opacity duration-300 group-hover:opacity-0 group-hover:pointer-events-none group-active:opacity-0 group-active:pointer-events-none text-white pointer-events-none ${isActive ? 'opacity-0 pointer-events-none' : ''}`}>
+               <div className={`absolute inset-x-0 bottom-0 p-6 md:p-8 flex items-end justify-between transition-opacity duration-500 group-hover:opacity-0 group-hover:pointer-events-none group-active:opacity-0 group-active:pointer-events-none text-white pointer-events-none ${isActive ? 'opacity-0 pointer-events-none' : ''}`}>
                   <div>
                     <span className="text-[10px] sm:text-xs font-sans text-white/70 uppercase mb-1 sm:mb-2 inline-block tracking-widest">{project.year}</span>
                     <h3 className="text-2xl sm:text-3xl md:text-4xl font-serif text-white tracking-tight">{project.title}</h3>
                   </div>
-                  <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full border border-white/30 flex items-center justify-center backdrop-blur-md bg-black/10 text-white pointer-events-auto cursor-pointer transition-transform group-hover:scale-110">
-                    <ArrowRight size={20} className="-rotate-45" />
-                  </div>
                </div>
+
+               {/* Unified Morphing Action Button - Seamlessly morphs from circular arrow to Details pill button on hover */}
+               <Link
+                 href={`/projects/${project.slug}`}
+                 onClick={(e) => e.stopPropagation()}
+                 className={`absolute bottom-6 md:bottom-8 right-6 md:right-8 z-30 flex items-center rounded-full border pointer-events-auto cursor-pointer shadow-md select-none overflow-hidden h-10 sm:h-12 transition-[width,background-color,border-color,box-shadow,color] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                   isActive
+                     ? 'w-[114px] sm:w-[124px] bg-white text-black border-white shadow-xl shadow-white/10'
+                     : 'w-10 sm:w-12 border-white/30 bg-black/20 text-white backdrop-blur-md group-hover:w-[114px] sm:group-hover:w-[124px] group-hover:bg-white group-hover:text-black group-hover:border-white group-hover:shadow-xl group-hover:shadow-white/10'
+                 }`}
+               >
+                 {/* Details text - slides and fades smoothly */}
+                 <span
+                   className={`absolute left-3.5 sm:left-4 font-sans uppercase tracking-widest text-[11px] sm:text-xs font-medium whitespace-nowrap transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                     isActive
+                       ? 'opacity-100 translate-x-0'
+                       : 'opacity-0 -translate-x-3 pointer-events-none group-hover:opacity-100 group-hover:translate-x-0 group-hover:pointer-events-auto'
+                   }`}
+                 >
+                   Details
+                 </span>
+
+                 {/* Arrow icon - anchored in place, PURE ROTATION frame per frame */}
+                 <div
+                   className={`absolute right-[11px] sm:right-[15px] flex items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                     isActive ? 'rotate-0' : '-rotate-45 group-hover:rotate-0'
+                   }`}
+                 >
+                   <ArrowRight size={18} className="shrink-0" />
+                 </div>
+               </Link>
             </div>
             )
           })}
