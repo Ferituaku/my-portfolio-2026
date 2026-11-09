@@ -3,6 +3,7 @@
 
 
 import { useScroll, useTransform, motion, useMotionValue, useSpring } from 'framer-motion'
+import { observeVideo } from '@/lib/observeMotion'
 import { useRef, useState, useEffect } from 'react'
 
 export function Hero() {
@@ -11,6 +12,8 @@ export function Hero() {
   const [vh, setVh] = useState(0)
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   
+  const areaRef = useRef<HTMLDivElement>(null)
+
   // Mouse motion values
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -31,75 +34,9 @@ export function Hero() {
   const opacity = useTransform(scrollY, [vh * 0.7, Math.max(vh, 1)], [1, 0])
   const pointerEvents = useTransform(scrollY, (y) => y > (vh || 500) ? 'none' : 'auto')
 
-  // Robust video playback & autoplay recovery logic
   useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    // Ensure DOM properties are strictly muted for browser autoplay compliance
-    video.muted = true
-    video.defaultMuted = true
-
-    const playVideo = () => {
-      if (video.paused) {
-        const promise = video.play()
-        if (promise !== undefined) {
-          promise.catch(() => {
-            // Autoplay prevented by browser policy; will retry on first user interaction
-          })
-        }
-      }
-    }
-
-    // Initial attempt
-    playVideo()
-
-    // Resume when tab becomes active / visible again
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible') {
-        playVideo()
-      }
-    }
-
-    // User interaction fallback (unlocks autoplay if policy blocked it initially)
-    const handleFirstInteraction = () => {
-      playVideo()
-      cleanupInteractionListeners()
-    }
-
-    const cleanupInteractionListeners = () => {
-      window.removeEventListener('touchstart', handleFirstInteraction)
-      window.removeEventListener('click', handleFirstInteraction)
-      window.removeEventListener('scroll', handleFirstInteraction)
-      window.removeEventListener('keydown', handleFirstInteraction)
-    }
-
-    window.addEventListener('touchstart', handleFirstInteraction, { passive: true })
-    window.addEventListener('click', handleFirstInteraction, { passive: true })
-    window.addEventListener('scroll', handleFirstInteraction, { passive: true })
-    window.addEventListener('keydown', handleFirstInteraction, { passive: true })
-    document.addEventListener('visibilitychange', handleVisibilityChange)
-
-    // Pause when offscreen to save battery/GPU, auto-resume when scrolled back into view
-    let observer: IntersectionObserver | null = null
-    if (ref.current && 'IntersectionObserver' in window) {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            playVideo()
-          } else {
-            video.pause()
-          }
-        },
-        { threshold: 0.05 }
-      )
-      observer.observe(ref.current)
-    }
-
-    return () => {
-      cleanupInteractionListeners()
-      document.removeEventListener('visibilitychange', handleVisibilityChange)
-      if (observer) observer.disconnect()
+    if (areaRef.current && videoRef.current) {
+      return observeVideo(areaRef.current, videoRef.current, '/bg-hero-720.mp4')
     }
   }, [])
 
@@ -117,6 +54,8 @@ export function Hero() {
   }
 
   return (
+    <>
+    <div ref={areaRef} aria-hidden className="absolute top-0 inset-x-0 h-[100dvh] pointer-events-none" />
     <motion.section 
       ref={ref}
       style={{ opacity, pointerEvents }}
@@ -129,23 +68,13 @@ export function Hero() {
       >
         <video
           ref={videoRef}
-          autoPlay
           loop
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           onLoadedData={() => setIsVideoLoaded(true)}
-          onCanPlay={() => {
-            if (videoRef.current?.paused) {
-              videoRef.current.play().catch(() => {})
-            }
-          }}
           className={`w-full h-full object-cover transition-opacity duration-700 ${isVideoLoaded ? 'opacity-90' : 'opacity-0'}`}
-        >
-          {/* Primary CDN Blob URL & Local Fallback source */}
-          <source src="https://ry74leabzi38ngqg.public.blob.vercel-storage.com/public/bg-hero.mp4" type="video/mp4" />
-          <source src="/bg-hero.mp4" type="video/mp4" />
-        </video>
+        />
       </motion.div>
 
       {/* Dark overlay for contrast */}
@@ -207,5 +136,6 @@ export function Hero() {
         </div>
       </motion.a>
     </motion.section>
+    </>
   )
 }

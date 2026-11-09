@@ -150,3 +150,7 @@
     transform: none !important;
   }
 }
+
+@keyframes footer-marquee {
+  to { transform: translateX(-1000px); }
+}

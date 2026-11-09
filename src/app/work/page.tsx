@@ -19,7 +19,7 @@ export default function WorkPage() {
 
   return (
     <>
-      <main className="relative z-10 bg-background selection:bg-foreground selection:text-background mb-[50dvh] shadow-2xl shadow-black">
+      <main className="relative z-10 bg-background selection:bg-foreground selection:text-background shadow-2xl shadow-black">
         
         {/* Intro / Header Section */}
       <section className="h-[45dvh] min-h-[320px] flex flex-col justify-center px-6 md:px-12 max-w-7xl mx-auto relative z-0 pt-[env(safe-area-inset-top,0px)]">

@@ -1,5 +1,6 @@
 'use client'
 
+import { observeMotion } from '@/lib/observeMotion'
 import { useEffect, useRef } from 'react'
 
 interface Dot {
@@ -44,7 +45,7 @@ export function InteractiveDotGrid({
 
     let animationFrameId: number
     let dots: Dot[] = []
-    let mouse = { x: -9999, y: -9999, isHovering: false }
+    const mouse = { x: -9999, y: -9999, isHovering: false }
 
     const initDots = (width: number, height: number) => {
       dots = []
@@ -166,9 +167,13 @@ export function InteractiveDotGrid({
 
     resizeCanvas()
     window.addEventListener('resize', resizeCanvas)
-    animationFrameId = requestAnimationFrame(render)
+    const disconnect = observeMotion(canvas, active => {
+      if (active) animationFrameId = requestAnimationFrame(render)
+      else cancelAnimationFrame(animationFrameId)
+    })
 
     return () => {
+      disconnect()
       cancelAnimationFrame(animationFrameId)
       window.removeEventListener('resize', resizeCanvas)
       if (parent) {

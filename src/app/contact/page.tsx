@@ -1,18 +1,18 @@
 'use client'
 
+import { observeMotion } from '@/lib/observeMotion'
 import { Footer } from "@/components/sections/Footer"
 import { ScrollSection } from "@/components/ui/ScrollSection"
 import { ScrambleText } from "@/components/ui/ScrambleText"
-import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
-import { Send, CheckCircle2, ArrowRight } from "lucide-react"
+import { Send, CheckCircle2 } from "lucide-react"
 
 export default function ContactPage() {
   const [activeField, setActiveField] = useState<string | null>(null)
   const [formData, setFormData] = useState({ name: "", email: "", message: "" })
   const [isSubmitted, setIsSubmitted] = useState(false)
   const canvasRef = useRef<HTMLCanvasElement | null>(null)
-  const containerRef = useRef<HTMLElement | null>(null)
 
   // Interactive Particle System react-effect
   useEffect(() => {
@@ -154,8 +154,7 @@ export default function ContactPage() {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x
           const dy = particles[i].y - particles[j].y
-          const dist = Math.sqrt(dx * dx + dy * dy)
-          if (dist < 75) {
+          if (dx * dx + dy * dy < 75 * 75) {
             ctx.beginPath()
             ctx.moveTo(particles[i].x, particles[i].y)
             ctx.lineTo(particles[j].x, particles[j].y)
@@ -166,9 +165,13 @@ export default function ContactPage() {
 
       animationFrameId = requestAnimationFrame(animate)
     }
-    animate()
+    const disconnect = observeMotion(canvas, active => {
+      if (active) animationFrameId = requestAnimationFrame(animate)
+      else cancelAnimationFrame(animationFrameId)
+    })
 
     return () => {
+      disconnect()
       window.removeEventListener("resize", handleResize)
       if (canvas) {
         canvas.removeEventListener("mousemove", handleMouseMove)
@@ -190,7 +193,7 @@ export default function ContactPage() {
 
   return (
     <>
-      <main className="relative z-10 bg-black text-white min-h-[100dvh] pt-[calc(6rem+env(safe-area-inset-top,0px))] pb-[calc(12rem+env(safe-area-inset-bottom,0px))] shadow-2xl shadow-black mb-[50dvh]">
+      <main className="relative z-10 bg-black text-white min-h-[100dvh] pt-[calc(6rem+env(safe-area-inset-top,0px))] pb-[calc(12rem+env(safe-area-inset-bottom,0px))] shadow-2xl shadow-black">
         
         {/* Interactive Canvas Background Overlay */}
         <div className="absolute inset-0 z-0 opacity-40 pointer-events-none overflow-hidden">
@@ -213,7 +216,7 @@ export default function ContactPage() {
                transition={{ duration: 0.8, ease: "easeOut" }}
                className="text-5xl sm:text-7xl md:text-8xl font-serif font-light tracking-tight leading-none uppercase"
              >
-               Let's create <br />
+               Let&apos;s create <br />
                <span className="italic font-normal text-muted-foreground">something bold</span>
              </motion.h1>
           </div>
@@ -230,7 +233,7 @@ export default function ContactPage() {
               <div className="space-y-4">
                 <h2 className="text-xs font-mono uppercase tracking-[0.25em] text-muted-foreground">Collabs & Inquiries</h2>
                 <p className="text-xl sm:text-2xl md:text-3xl font-light leading-relaxed text-white/80">
-                  Currently open to full-time engineering opportunities, freelance projects, and creative collaborations. Let's build something state-of-the-art.
+                  Currently open to full-time engineering opportunities, freelance projects, and creative collaborations. Let&apos;s build something state-of-the-art.
                 </p>
               </div>
               

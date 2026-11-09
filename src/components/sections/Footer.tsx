@@ -2,6 +2,7 @@
 
 import { useRef, useEffect } from 'react'
 import { motion, useSpring, useMotionValue } from 'framer-motion'
+import { observeVideo } from '@/lib/observeMotion'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -9,6 +10,9 @@ export function Footer() {
   const pathname = usePathname()
   const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
+
+  const areaRef = useRef<HTMLDivElement>(null)
+  const marqueeRef = useRef<HTMLDivElement>(null)
 
   // Mouse position for parallax
   const x = useMotionValue(0)
@@ -33,11 +37,17 @@ export function Footer() {
       y.set(yPos * 50)
     }
 
-    window.addEventListener('mousemove', handleMouseMove)
-    return () => window.removeEventListener('mousemove', handleMouseMove)
+    if (!areaRef.current || !videoRef.current) return
+    return observeVideo(areaRef.current, videoRef.current, '/bg-footer-720.mp4', active => {
+      if (active) window.addEventListener('mousemove', handleMouseMove)
+      else window.removeEventListener('mousemove', handleMouseMove)
+      if (marqueeRef.current) marqueeRef.current.style.animationPlayState = active ? 'running' : 'paused'
+    })
   }, [x, y])
 
   return (
+    <>
+    <div aria-hidden ref={areaRef} className="h-[50dvh] pointer-events-none" />
     <footer
       ref={containerRef}
       className="fixed bottom-0 left-0 w-full h-[50dvh] z-0 flex flex-col justify-end overflow-hidden bg-black text-white pb-[env(safe-area-inset-bottom,0px)]"
@@ -49,14 +59,12 @@ export function Footer() {
       >
         <video
           ref={videoRef}
-          autoPlay
+          preload="metadata"
           loop
           muted
           playsInline
           className="w-full h-[190dvh] object-cover opacity-90 filter blur-xs scale-150"
-        >
-          <source src="https://ry74leabzi38ngqg.public.blob.vercel-storage.com/public/bg-footer.mp4" type="video/mp4" />
-        </video>
+        />
         {/* Dark Gradient Overlay */}
         <div className="absolute inset-0 bg-black/60" />
       </motion.div>
@@ -89,17 +97,17 @@ export function Footer() {
 
       {/* Running Text Marquee */}
       <div className="absolute top-0 left-0 w-full overflow-hidden py-4 bg-white/5 backdrop-blur-sm border-b border-white/10">
-        <motion.div
+        <div
+          ref={marqueeRef}
           className="flex whitespace-nowrap"
-          animate={{ x: [0, -1000] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          style={{ animation: "footer-marquee 20s linear infinite paused" }}
         >
           {[...Array(10)].map((_, i) => (
             <span key={i} className="text-sm md:text-base font-mono uppercase tracking-widest px-8 opacity-70">
-              Let's Work Together • Contact Me • Open for Collaborations •
+              Let&apos;s Work Together • Contact Me • Open for Collaborations •
             </span>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Content */}
@@ -147,5 +155,6 @@ export function Footer() {
 
       </div>
     </footer>
+    </>
   )
 }
