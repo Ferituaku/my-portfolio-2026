@@ -159,8 +159,19 @@
   --footer-height: max(50dvh, 24rem);
 }
 
+/* Offsets share a flat plane. Stagger the release like a traveling drop. */
+.liquid-orbit circle {
+  animation: liquid-drift 2.4s cubic-bezier(.45, 0, .55, 1) infinite;
+}
+.liquid-left { --travel: 17px; }
+.liquid-orbit .liquid-center { --travel: -5px; animation-delay: -.3s; }
+.liquid-orbit .liquid-right { --travel: -17px; animation-delay: -.6s; }
+
+@keyframes liquid-drift {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(var(--travel)); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .liquid-orbit circle {
-    animation-play-state: paused !important;
-  }
+  .liquid-orbit circle { animation: none; }
 }
