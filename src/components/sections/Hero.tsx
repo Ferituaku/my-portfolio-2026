@@ -66,6 +66,7 @@ export function Hero() {
         className="absolute top-0 left-0 w-full h-full"
       >
         <video
+          data-hero-background
           ref={videoRef}
           loop
           muted

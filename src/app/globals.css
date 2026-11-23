@@ -158,3 +158,9 @@
 :root {
   --footer-height: max(50dvh, 24rem);
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-orbit circle {
+    animation-play-state: paused !important;
+  }
+}
