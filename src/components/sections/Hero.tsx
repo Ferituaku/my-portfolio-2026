@@ -10,7 +10,6 @@ export function Hero() {
   const ref = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
   const [vh, setVh] = useState(0)
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   
   const areaRef = useRef<HTMLDivElement>(null)
 
@@ -49,13 +48,13 @@ export function Hero() {
     const yPct = (clientY / innerHeight - 0.5) * 2
     
     // Move slightly in opposite direction for parallax (max 40px)
-    mouseX.set(xPct * -40)
-    mouseY.set(yPct * -40)
+    mouseX.set(xPct * -Math.min(40, innerWidth * 0.04))
+    mouseY.set(yPct * -Math.min(40, innerHeight * 0.04))
   }
 
   return (
     <>
-    <div ref={areaRef} aria-hidden className="absolute top-0 inset-x-0 h-[100dvh] pointer-events-none" />
+    <div ref={areaRef} aria-hidden className="relative h-[100dvh] pointer-events-none" />
     <motion.section 
       ref={ref}
       style={{ opacity, pointerEvents }}
@@ -72,8 +71,8 @@ export function Hero() {
           muted
           playsInline
           preload="metadata"
-          onLoadedData={() => setIsVideoLoaded(true)}
-          className={`w-full h-full object-cover transition-opacity duration-700 ${isVideoLoaded ? 'opacity-90' : 'opacity-0'}`}
+          poster="/bg-hero-poster.webp"
+          className="w-full h-full object-cover opacity-90"
         />
       </motion.div>
 
@@ -82,7 +81,7 @@ export function Hero() {
 
 
       <div className="relative z-10 text-center text-white mix-blend-difference select-none pointer-events-none px-4">
-        <h1 className="text-5xl sm:text-7xl md:text-[12vw] font-serif font-normal tracking-tight mb-2 animate-in fade-in slide-in-from-bottom-10 duration-1000 leading-none">
+        <h1 className="text-[clamp(2.5rem,12vw,12rem)] font-serif font-normal tracking-tight mb-2 animate-in fade-in slide-in-from-bottom-10 duration-1000 leading-none">
           Ferro Putra
         </h1>
         <p className="text-xs sm:text-sm md:text-base font-sans tracking-[0.2em] uppercase animate-in fade-in slide-in-from-bottom-5 duration-1000 delay-300 opacity-80">

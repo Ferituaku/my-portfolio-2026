@@ -96,7 +96,7 @@ export function Navbar() {
         <nav className="w-full flex-1 flex flex-col justify-center">
           <ul
             ref={navListRef}
-            className="flex flex-col items-center gap-6 md:gap-5 w-full"
+            className="flex flex-col items-center gap-[clamp(0.5rem,2.5dvh,1.5rem)] w-full"
           >
             {MENU_ITEMS.map((item, idx) => {
               // Logic: If on home page, use anchor. If not, use /#anchor.
@@ -112,7 +112,7 @@ export function Navbar() {
                   <a
                     href={item.href}
                     onClick={toggleMenu}
-                    className="text-[10vw] md:text-5xl lg:text-7xl font-serif font-normal hover:opacity-70 transition-opacity block leading-none"
+                    className="text-[clamp(1.5rem,min(10vw,8dvh),4.5rem)] font-serif font-normal hover:opacity-70 transition-opacity block leading-none"
                   >
                     {item.label}
                   </a>
@@ -120,7 +120,7 @@ export function Navbar() {
                   <Link
                     href={href}
                     onClick={toggleMenu}
-                    className="text-[10vw] md:text-5xl lg:text-7xl font-serif font-normal hover:opacity-70 transition-opacity block leading-none"
+                    className="text-[clamp(1.5rem,min(10vw,8dvh),4.5rem)] font-serif font-normal hover:opacity-70 transition-opacity block leading-none"
                   >
                     {item.label}
                   </Link>

@@ -154,3 +154,7 @@
 @keyframes footer-marquee {
   to { transform: translateX(-1000px); }
 }
+
+:root {
+  --footer-height: max(50dvh, 24rem);
+}

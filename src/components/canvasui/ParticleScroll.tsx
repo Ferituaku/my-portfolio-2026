@@ -803,7 +803,8 @@ export function ParticleScroll({
     supportsHtmlInCanvas,
     () => false,
   );
-  const native = supported && !failed;
+  // Fixed page layers need normal DOM layout and intersection reporting.
+  const native = supported && !failed && !windowScroll;
 
   useEffect(() => {
     // Only initialize WebGL engine when native html-in-canvas is available

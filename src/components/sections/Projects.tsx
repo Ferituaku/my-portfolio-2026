@@ -45,7 +45,7 @@ export function Projects() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
+      setIsMobile(window.innerWidth < 768 || window.innerHeight < 600)
     }
     checkMobile()
     window.addEventListener("resize", checkMobile)

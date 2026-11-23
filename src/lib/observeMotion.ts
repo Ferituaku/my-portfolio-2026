@@ -44,6 +44,8 @@ export function observeMotion(
 
 export function observeVideo(area: Element, video: HTMLVideoElement, src: string, onActive?: (active: boolean) => void) {
   let active = false
+  video.muted = true
+  video.defaultMuted = true
   function play() {
     if (active && !document.hidden && video.paused) void video.play().catch(() => {})
   }
@@ -55,10 +57,12 @@ export function observeVideo(area: Element, video: HTMLVideoElement, src: string
   }, () => {
     if (!video.hasAttribute('src')) video.src = src
   })
+  video.addEventListener('canplay', play)
   window.addEventListener('pointerup', play)
   window.addEventListener('keydown', play)
   return () => {
     disconnect()
+    video.removeEventListener('canplay', play)
     window.removeEventListener('pointerup', play)
     window.removeEventListener('keydown', play)
   }

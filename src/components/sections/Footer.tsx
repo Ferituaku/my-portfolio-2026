@@ -47,10 +47,10 @@ export function Footer() {
 
   return (
     <>
-    <div aria-hidden ref={areaRef} className="h-[50dvh] pointer-events-none" />
+    <div aria-hidden ref={areaRef} className="h-[var(--footer-height)] pointer-events-none" />
     <footer
       ref={containerRef}
-      className="fixed bottom-0 left-0 w-full h-[50dvh] z-0 flex flex-col justify-end overflow-hidden bg-black text-white pb-[env(safe-area-inset-bottom,0px)]"
+      className="fixed bottom-0 left-0 w-full h-[var(--footer-height)] z-0 flex flex-col justify-end overflow-hidden bg-black text-white pb-[env(safe-area-inset-bottom,0px)]"
     >
       {/* Background Video with Parallax */}
       <motion.div

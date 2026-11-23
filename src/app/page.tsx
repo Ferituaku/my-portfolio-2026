@@ -28,7 +28,7 @@ export default function Home() {
       >
         <Hero />
         {/* Upper content with shadow sliding over fixed Hero */}
-        <div className="relative z-10 bg-background mt-[100dvh] shadow-2xl shadow-black">
+        <div className="relative z-10 bg-background shadow-2xl shadow-black">
           <About />
           <Work />
         </div>
